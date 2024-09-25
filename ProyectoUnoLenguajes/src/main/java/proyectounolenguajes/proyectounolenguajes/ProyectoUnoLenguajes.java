@@ -4,6 +4,8 @@
 
 package proyectounolenguajes.proyectounolenguajes;
 
+import fronted.JFramePrincipal;
+
 /**
  *
  * @author xavi
@@ -11,6 +13,7 @@ package proyectounolenguajes.proyectounolenguajes;
 public class ProyectoUnoLenguajes {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        JFramePrincipal frame = new JFramePrincipal();
+        frame.setVisible(true);
     }
 }
