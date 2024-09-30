@@ -1,5 +1,6 @@
 
 package fronted;
+import backen.Analizador;
 import java.awt.Color;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -202,6 +203,9 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
     private void botonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExportarActionPerformed
         // TODO add your handling code here:
+        Analizador analizador = new Analizador();
+        analizador.exportarHtml(taTexto.getText());
+        
     }//GEN-LAST:event_botonExportarActionPerformed
 
     private void botonOptimizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonOptimizarActionPerformed
