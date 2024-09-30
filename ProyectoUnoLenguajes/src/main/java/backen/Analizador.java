@@ -8,10 +8,12 @@ public class Analizador {
     private List<String> lineasHTML = new ArrayList<>();  // Para almacenar las líneas de HTML
     private List<String> lineasCSS = new ArrayList<>();   // Para almacenar las líneas de CSS
     private List<String> lineasJS = new ArrayList<>();    // Para almacenar las líneas de JS
-    
+
     private List<String> codigoHTML = new ArrayList<>();  // Para almacenar las líneas de HTML
     private List<String> codigoCSS = new ArrayList<>();   // Para almacenar las líneas de CSS
     private List<String> codigoJS = new ArrayList<>();    // Para almacenar las líneas de JS
+
+    private List<String> codigoOptimizado = new ArrayList<>();
 
     public Analizador() {
 
@@ -25,13 +27,46 @@ public class Analizador {
         separarTipoDeCodigo(lineas);
 
     }
-    
-    
+
+    public List<String> optimizarCodigo(String texto) {
+        boolean agregar;
+        int contadorDeEspaciosVacios = 0;
+        String[] lineas = separarPorLineas(texto);
+
+        for (int i = 0; i < lineas.length; i++) {
+
+            if (lineas[i].isEmpty()) {
+                contadorDeEspaciosVacios++;
+            } else {
+                contadorDeEspaciosVacios = 0;
+            }
+            
+            if (contadorDeEspaciosVacios > 0 || tieneComentario(lineas[i])) {
+                agregar = false;
+            } else {
+                agregar = true;
+            }
+
+            if (agregar) {
+                codigoOptimizado.add(lineas[i]);
+            }
+        }
+
+        return codigoOptimizado;
+    }
+
+    public boolean tieneComentario(String linea) {
+        for (int j = 0; j < linea.length() - 1; j++) { // Cambia < linea.length() por < linea.length() - 1
+            if (linea.charAt(j) == '/' && linea.charAt(j + 1) == '/') {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public String[] separarPorLineas(String texto) {
         String[] lineas = texto.split("\n");
         // Separa el texto en líneas usando el salto de línea como delimitador
-
         return texto.split("\n");
     }
 
@@ -63,13 +98,12 @@ public class Analizador {
                 }
             }
         }
-        
 
         analizadorCSS();
 
         analizadorJS();
-        
-        analizadorHTML(codigoCSS,codigoJS);
+
+        analizadorHTML(codigoCSS, codigoJS);
 
     }
 
@@ -77,7 +111,7 @@ public class Analizador {
 
     }
 
-    public void analizadorHTML(List<String> codigoCSS,List<String> codigoJS) {
+    public void analizadorHTML(List<String> codigoCSS, List<String> codigoJS) {
         System.out.println("-------------------");
         System.out.println("HTML Lines:");
         System.out.println("-------------------");

@@ -2,11 +2,13 @@
 package fronted;
 import backen.Analizador;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class JFramePrincipal extends javax.swing.JFrame {
-
+private List<String> codigoOptimizado = new ArrayList<>();
     public JFramePrincipal() {
         initComponents();
         limpiar();
@@ -210,6 +212,15 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
     private void botonOptimizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonOptimizarActionPerformed
         // TODO add your handling code here:
+        Analizador analizador = new Analizador();
+        codigoOptimizado = analizador.optimizarCodigo(taTexto.getText());
+        taTexto.setText("");
+
+        // Agrega los elementos del ArrayList al JTextArea
+        for (String elemento : codigoOptimizado) {
+            taTexto.append(elemento + "\n"); // Agrega cada elemento en una nueva línea
+        }
+        
     }//GEN-LAST:event_botonOptimizarActionPerformed
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
