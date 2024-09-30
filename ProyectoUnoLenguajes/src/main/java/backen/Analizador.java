@@ -8,6 +8,10 @@ public class Analizador {
     private List<String> lineasHTML = new ArrayList<>();  // Para almacenar las líneas de HTML
     private List<String> lineasCSS = new ArrayList<>();   // Para almacenar las líneas de CSS
     private List<String> lineasJS = new ArrayList<>();    // Para almacenar las líneas de JS
+    
+    private List<String> codigoHTML = new ArrayList<>();  // Para almacenar las líneas de HTML
+    private List<String> codigoCSS = new ArrayList<>();   // Para almacenar las líneas de CSS
+    private List<String> codigoJS = new ArrayList<>();    // Para almacenar las líneas de JS
 
     public Analizador() {
 
@@ -21,6 +25,8 @@ public class Analizador {
         separarTipoDeCodigo(lineas);
 
     }
+    
+    
 
     public String[] separarPorLineas(String texto) {
         String[] lineas = texto.split("\n");
@@ -57,11 +63,13 @@ public class Analizador {
                 }
             }
         }
-        analizadorHTML();
+        
 
         analizadorCSS();
 
         analizadorJS();
+        
+        analizadorHTML(codigoCSS,codigoJS);
 
     }
 
@@ -69,7 +77,7 @@ public class Analizador {
 
     }
 
-    public void analizadorHTML() {
+    public void analizadorHTML(List<String> codigoCSS,List<String> codigoJS) {
         System.out.println("-------------------");
         System.out.println("HTML Lines:");
         System.out.println("-------------------");

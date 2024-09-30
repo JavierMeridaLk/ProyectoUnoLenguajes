@@ -1,8 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package backen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Token {
 
@@ -12,10 +11,32 @@ public class Token {
     private String columna;
     private String lenguaje;
     private String expresionRegular;
+    
+    private List<Token> Token = new ArrayList<>();
+
+    //Entrada    
+    private final String[] ENTRADA = {
+        "principal", "encabezado", "navegacion", "apartado", "listaordenada",
+        "listadesordenada", "itemlista", "anclaje", "contenedor", "seccion",
+        "articulo", "titulo", "parrafo", "span", "entrada", "formulario",
+        "label", "area", "boton", "piepagina"
+    };
+
+    //Traduccion
+    private final String[] TRADUCCION = {
+        "main", "header", "nav", "aside", "ul", "ol", "li", "a", "div",
+        "section", "article", "h#", "p", "span", "input", "form",
+        "label", "textarea", "button", "footer"
+    };
+
+    //Tipo
+    private final String[] TIPO_DE_TOKEN = {
+        "Apertura", "Cierre", "Una línea",};
 
     public Token() {
 
     }
+    
 
     public void crearToken(Token token) {
 
