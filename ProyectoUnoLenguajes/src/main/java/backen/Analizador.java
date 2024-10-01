@@ -14,6 +14,7 @@ public class Analizador {
     private List<String> codigoJS = new ArrayList<>();    // Para almacenar las líneas de JS
 
     private List<String> codigoOptimizado = new ArrayList<>();
+     private List<Token> tokenOptimizacion = new ArrayList<>();
 
     public Analizador() {
 
@@ -29,6 +30,7 @@ public class Analizador {
     }
 
     public List<String> optimizarCodigo(String texto) {
+        Token token = new Token();
         boolean agregar;
         int contadorDeEspaciosVacios = 0;
         String[] lineas = separarPorLineas(texto);
@@ -42,6 +44,7 @@ public class Analizador {
             }
             
             if (contadorDeEspaciosVacios > 0 || tieneComentario(lineas[i])) {
+                token.getTokenOptimizacion().add(token);
                 agregar = false;
             } else {
                 agregar = true;
