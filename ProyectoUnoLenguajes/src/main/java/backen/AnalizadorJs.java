@@ -16,7 +16,6 @@ public class AnalizadorJs {
     public void separarPalabras(List<String> codigo) {
         for (String lineaInicial : codigo) {
             String lineaProcesada = lineaInicial.trim();
-
             // Verificar si la línea contiene un comentario //
             int indiceComentario = lineaProcesada.indexOf("//");
             if (indiceComentario != -1) {
@@ -42,7 +41,6 @@ public class AnalizadorJs {
                 }
             }
         }
-
         // Mostrar las palabras separadas
         for (String palabra : palabras) {
             System.out.println(palabra);
@@ -54,18 +52,15 @@ public class AnalizadorJs {
         char[] simbolos = {
             '(', ')', '[', ']', '{', '}', '+', '-', '*', '/', '=', ';', ',', '.', ':', '!', '<', '>', '&', '|'
         };
-
         // Recorre cada palabra
         for (String palabra : palabras) {
             StringBuilder palabraTemporal = new StringBuilder(); // Para almacenar la palabra temporalmente
             boolean dentroDeCadena = false; // Indicador para saber si estamos dentro de una cadena
             char delimitadorCadena = 0; // Almacena el tipo de delimitador de la cadena
-
             // Recorre cada carácter de la palabra
             for (int i = 0; i < palabra.length(); i++) {
                 char actual = palabra.charAt(i);
                 boolean esDobleSimbolo = false;
-
                 // Verificar si se trata del inicio o fin de una cadena
                 if (!dentroDeCadena && (actual == '"' || actual == '\'' || actual == '`')) {
                     // Si no estamos dentro de una cadena, comenzamos una
@@ -83,7 +78,6 @@ public class AnalizadorJs {
                     }
                     continue;
                 }
-
                 // Verificar si se trata de un comentario de línea con //
                 if (actual == '/' && i + 1 < palabra.length() && palabra.charAt(i + 1) == '/') {
                     // Si había una palabra temporal, agregarla a la lista
@@ -91,22 +85,17 @@ public class AnalizadorJs {
                         palabrasJS.add(palabraTemporal.toString());
                         palabraTemporal.setLength(0); // Reiniciar la palabra temporal
                     }
-
                     // Agregar el comentario completo como una palabra separada
                     palabrasJS.add(palabra.substring(i)); // Tomar todo lo que resta de la palabra como un comentario
-
                     break; // Salir del ciclo porque el resto de la palabra es el comentario
                 }
-
                 // Verificar si se trata de un operador de dos caracteres
                 if (i + 1 < palabra.length()) {
                     String dosCaracteres = palabra.substring(i, i + 2);
-
                     // Verificar si es alguno de los operadores de dos caracteres
                     if (dosCaracteres.equals("||") || dosCaracteres.equals("&&") || dosCaracteres.equals("==")
                             || dosCaracteres.equals("!=") || dosCaracteres.equals("<=") || dosCaracteres.equals(">=")
                             || dosCaracteres.equals("++") || dosCaracteres.equals("--")) {
-
                         // Si había una palabra temporal, agregarla a la lista
                         if (palabraTemporal.length() > 0) {
                             palabrasJS.add(palabraTemporal.toString());
@@ -114,13 +103,11 @@ public class AnalizadorJs {
                         }
                         // Agregar el operador de dos caracteres como una palabra separada
                         palabrasJS.add(dosCaracteres);
-
                         // Saltar el siguiente carácter porque ya se procesaron dos caracteres
                         i++;
                         esDobleSimbolo = true;
                     }
                 }
-
                 // Si no es un operador de dos caracteres, verificar si es un símbolo de un carácter
                 if (!esDobleSimbolo && esSimbolo(actual, simbolos)) {
                     // Si había una palabra temporal, agregarla a la lista
@@ -135,24 +122,13 @@ public class AnalizadorJs {
                     palabraTemporal.append(actual);
                 }
             }
-
             // Si queda alguna palabra sin agregar al final del ciclo, agregarla
             if (palabraTemporal.length() > 0) {
                 palabrasJS.add(palabraTemporal.toString());
             }
         }
-
-        // Mostrar las palabras separadas
-        System.out.println("-------------------------------");
-        System.out.println("Palabras de JS inicio:");
-        for (String palabraSeparada : palabrasJS) {
-            System.out.println(palabraSeparada);
-        }
-        System.out.println("Palabras de JS fin");
-        System.out.println("-------------------------------");
     }
 
-// Método auxiliar para verificar si un carácter es uno de los símbolos
     private boolean esSimbolo(char c, char[] simbolos) {
         for (char simbolo : simbolos) {
             // Verificar si el carácter es igual a uno de los símbolos
@@ -174,7 +150,6 @@ public class AnalizadorJs {
             String expresionRegular = "";
             boolean agregar = false;
             Token tokenNuevo = new Token();
-
             try {
                 Integer.parseInt(palabra);
                 tokenTxt = palabra;
@@ -182,7 +157,6 @@ public class AnalizadorJs {
                 expresionRegular = "[0-9]*";
                 agregar = true;
             } catch (NumberFormatException e1) {
-                // Si no es un entero, verificar si es un decimal
                 try {
                     Double.parseDouble(palabra);
                     tokenTxt = palabra;
@@ -398,24 +372,24 @@ public class AnalizadorJs {
                         agregar = true;
                     } else if ((palabra.charAt(0) == '"' && palabra.charAt(palabra.length() - 1) == '"')
                             || (palabra.charAt(0) == '\'' && palabra.charAt(palabra.length() - 1) == '\'')
-                            || (palabra.charAt(0) == '`' && palabra.charAt(palabra.length() - 1) == '`')) {//cadenas
+                            || (palabra.charAt(0) == '`' && palabra.charAt(palabra.length() - 1) == '`')) {
                         tokenTxt = palabra;
                         tipo = "Cadena";
                         expresionRegular = "('||\"||`)+[a-zA-z]+('||\"||`)";
                         agregar = true;
-                    } else if (verificaIdentificador(palabra)) {//identificador
+                    } else if (verificaIdentificador(palabra)) {
                         tokenTxt = palabra;
                         tipo = "Identificador";
                         expresionRegular = "[a-zA-Z]+([a-zA-Z] || [0-9] || [ _ ])*";
                         agregar = true;
-                    } else if (palabra.charAt(0) == '/' && palabra.charAt(1) == '/') {//comentario
+                    } else if (palabra.charAt(0) == '/' && palabra.charAt(1) == '/') {
                         tokenTxt = palabra;
                         tipo = "Comentario";
                         expresionRegular = "//cualquier caracter";
                         agregar = true;
-                    }else {
+                    } else {
                         agregar = false;
-                        // Si no pertenece a ninguna de las categorías anteriores
+                        // Agregarlo al listado de errores
                         System.out.println(palabra + " es un error.");
                         tokenNuevo.setToken(tokenTxt);
                         tokenNuevo.setLenguaje(lenguaje);
@@ -429,13 +403,12 @@ public class AnalizadorJs {
                 tokenNuevo.setLenguaje(lenguaje);
                 tokenNuevo.setTipo(tipo);
                 token.getListaDeTokens().add(tokenNuevo);
-                // Agregar la palabra y su tipo al resultado (esto depende de cómo manejes el Token)
+                // Agregar un nuevo token al listado
             }
         }
     }
 
     public boolean verificaIdentificador(String palabra) {
-        // La palabra no puede estar vacía
         if (palabra == null || palabra.length() == 0) {
             return false;
         }
@@ -450,7 +423,6 @@ public class AnalizadorJs {
                 return false;
             }
         }
-        // Si todo cumple, la cadena es válida
         return true;
     }
 }

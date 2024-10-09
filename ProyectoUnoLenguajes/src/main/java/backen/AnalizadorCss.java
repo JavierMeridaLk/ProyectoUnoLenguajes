@@ -7,6 +7,7 @@ public class AnalizadorCss {
 
     private List<String> codigoCSS;
     private List<String> palabrasCSS;
+    private List<String> palabras;
     private final String[] ETIQUETAS = {"body", "header", "main", "nav", "aside", "div", "ul", "ol", "li", "a", "h1", "h2", "h3", "h4", "h5", "h6",
         "p", "span", "label", "textarea", "button", "section", "article", "footer"};
     private final String[] COMBINADORES = {">", "+", "~", " "};//agregar las condiciones del " "
@@ -19,134 +20,261 @@ public class AnalizadorCss {
         "::after", ":", ";", ",", "(", ")", "{", "}"};
 
     public AnalizadorCss() {
-
+palabrasCSS = new ArrayList<>();
+palabras = new ArrayList<>();
     }
 
-    public void analizarCss(List<String> codigo, Token token) {
+   public void analizarCss(List<String> codigo, Token token) {
+    separarPorPalabras(codigo);
+    validarPalabras();
 
-        separarPorPalabras(codigo);
+    for (String palabra : palabrasCSS) {
+        Token tokenNuevo = new Token();
+        String expresion = "";
+        String lenguaje = "CSS";
+        String tipo = "";
+        boolean agregar = true;
 
-        for (String palabra : palabrasCSS) {
-            Token tokenNuevo = new Token();
-            String expresion = "";
-            String lenguaje = "CSS";
-            String tipo = "";
-            boolean agregar = true;
-            if (existeEnArreglo(palabra, ETIQUETAS)) {
-                expresion = palabra;
-                tipo = "Etiqueta o Tipo";
-                agregar = true;
-            } else if (existeEnArreglo(palabra, COMBINADORES)) {
-                expresion = palabra;
-                tipo = "Combinadores";
-                agregar = true;
-            } else if (existeEnArreglo(palabra, REGLAS)) {
-                expresion = palabra;
-                tipo = "Reglas";
-                agregar = true;
-            } else if (existeEnArreglo(palabra, OTROS)) {
-                expresion = palabra;
-                tipo = "Otros";
-                agregar = true;
-            } else if (palabra.equals("*")) {
-                expresion = "";
-                tipo = "Universal";
-                agregar = true;
-            } else if (palabra.matches("\\.[a-z][a-z0-9_]*")) {
-                expresion = "[a-z]+ [0-9]* (- ([a-z] | [0-9])+)*";
-                tipo = "De clase"; // Aquí pones el código que deseas ejecutar si cumple la condición
-                agregar = true;
-            } else if (palabra.matches("#[a-z][a-z0-9_]*")) {
-                expresion = "#[a-z]+ [0-9]* (- ([a-z] | [0-9])*)";
-                tipo = "De id"; // Aquí pones el código que deseas ejecutar si cumple la condición
-                agregar = true;
-            } else if (palabra.matches("'[^']*'")) {
-                tipo = "Cadena"; // Aquí pones el código que deseas ejecutar si cumple la condición
-                expresion = "'+([a-z]||[0-9]||)+'";
-                agregar = true;
-            } else if (palabra.matches("#([a-fA-F0-9]{3}|[a-fA-F0-9]{6})")) {
-                expresion = "#+([a-fA-F0-9]{3}||[a-fA-F0-9]{6})";
-                tipo = "hexadecimal"; // La palabra es un color hexadecimal válido
-                agregar = true;
-            } else if (palabra.matches("rgba\\((\\d{1,3},\\s*,\\s*){3}(\\d(\\.\\d+)?|1|0)?\\)")) {
-                expresion = "rgba+(+([0-9]{3}||[0-9]{4})+)";
-                tipo = "rgba"; // Color rgba válido
-                agregar = true;
-            } else if (palabra.matches("[a-z]+[0-9]*(-([a-z]|[0-9])*)*")) {
-                expresion = "[a-z]+ [0-9]* (- ([a-z] | [0-9])+)*";
-                tipo = "Identificador";
-                agregar = true;
-            } else if (palabra.matches("-?\\d+")) {
-                expresion = "[0-9]*";
-                System.out.println("Es un número entero válido");
-                agregar = true;
-            } else {
-                agregar = false;
-                // Si no pertenece a ninguna de las categorías anteriores
-                System.out.println(palabra + " es un error.");
-                tokenNuevo.setToken(palabra);
-                tokenNuevo.setLenguaje(lenguaje);
-                token.getTokenError().add(tokenNuevo);
-            }
-            if (agregar) {
-                tokenNuevo.setToken(palabra);
-                tokenNuevo.setExpresionRegular(expresion);
-                tokenNuevo.setLenguaje(lenguaje);
-                tokenNuevo.setTipo(tipo);
-                token.getListaDeTokens().add(tokenNuevo);
-                // Agregar la palabra y su tipo al resultado (esto depende de cómo manejes el Token)
-            }
-
+        // Verificar las diferentes categorías
+        if (existeEnArreglo(palabra, ETIQUETAS)) {
+            expresion = palabra;
+            tipo = "Etiqueta o Tipo";
+        } else if (existeEnArreglo(palabra, COMBINADORES)) {
+            expresion = palabra;
+            tipo = "Combinadores";
+        } else if (existeEnArreglo(palabra, REGLAS)) {
+            expresion = palabra;
+            tipo = "Reglas";
+        } else if (existeEnArreglo(palabra, OTROS)) {
+            expresion = palabra;
+            tipo = "Otros";
+        } else if (palabra.equals("*")) {
+            expresion = "";
+            tipo = "Universal";
+        } else if (esClase(palabra)) {
+            expresion = "Clase";
+            tipo = "De clase";
+        } else if (esId(palabra)) {
+            expresion = "Id";
+            tipo = "De id";
+        } else if (esCadena(palabra)) {
+            tipo = "Cadena";
+            expresion = "Cadena encontrada";
+        } else if (esColorHexadecimal(palabra)) {
+            expresion = "Color hexadecimal";
+            tipo = "hexadecimal";
+        } else if (esRgba(palabra)) {
+            expresion = "Color rgba";
+            tipo = "rgba";
+        } else if (esIdentificador(palabra)) {
+            expresion = "Identificador";
+            tipo = "Identificador";
+        } else if (esEntero(palabra)) {
+            expresion = "Número entero";
+            tipo = "Entero";
+        } else {
+            agregar = false;
+            // Si no pertenece a ninguna de las categorías anteriores
+            System.out.println(palabra + " es un error.");
+            tokenNuevo.setToken(palabra);
+            tokenNuevo.setLenguaje(lenguaje);
+            token.getTokenError().add(tokenNuevo);
         }
-        //return codigoCSS;
-    }
 
-    private boolean existeEnArreglo(String palabra, String[] arreglo) {
-        for (String item : arreglo) {
-            if (palabra.equals(item)) {
-                return true;
-            }
+        if (agregar) {
+            tokenNuevo.setToken(palabra);
+            tokenNuevo.setExpresionRegular(expresion);
+            tokenNuevo.setLenguaje(lenguaje);
+            tokenNuevo.setTipo(tipo);
+            token.getListaDeTokens().add(tokenNuevo);
+            // Agregar la palabra y su tipo al resultado (esto depende de cómo manejes el Token)
         }
-        return false;
     }
+}
 
-    private void separarPorPalabras(List<String> codigo) {
-        palabrasCSS = new ArrayList<>();
-        StringBuilder palabraCreada = new StringBuilder();
-        char actual;
-        String palabraNueva = "";
-        String palabraTemporal = "";
+private boolean existeEnArreglo(String palabra, String[] arreglo) {
+    for (String item : arreglo) {
+        if (palabra.equals(item)) {
+            return true;
+        }
+    }
+    return false;
+}
 
-        for (String linea : codigo) {
-            // Quitar espacios al inicio y al final de la línea
-            String lineaProcesada = linea.trim();
-            if (!lineaProcesada.isEmpty()) {
-                for (int i = 0; i < lineaProcesada.length(); i++) {
-                    actual = lineaProcesada.charAt(i);
-                    if (actual == ' ' || !haySiguientePalabra(i, lineaProcesada.length())) {
-                        // Verificar si palabraNueva no está vacía antes de acceder al último carácter
-                        if (!palabraNueva.isEmpty()) {
-                            char ultimoCaracter = palabraNueva.charAt(palabraNueva.length() - 1);
-                            if (esDelimitador(ultimoCaracter)) {
-                                for (int j = 0; j < palabraNueva.length() - 1; j++) {
-                                    palabraTemporal = palabraTemporal + palabraNueva.charAt(j);
-                                }
-                                palabrasCSS.add(palabraTemporal);
-                                palabrasCSS.add(String.valueOf(ultimoCaracter));
-                                System.out.println(palabraTemporal);
-                                System.out.println(ultimoCaracter);
-                                palabraTemporal = "";
-                            } else {
-                                palabrasCSS.add(palabraNueva);
-                            }
-                        }
-                        palabraNueva = "";
-                    } else {
-                        palabraNueva = palabraNueva + actual;
-                    }
+// Métodos auxiliares para validar cada tipo de palabra
+
+private boolean esClase(String palabra) {
+    return palabra.length() > 1 && palabra.startsWith(".") && esNombreValido(palabra.substring(1));
+}
+
+private boolean esId(String palabra) {
+    return palabra.length() > 1 && palabra.startsWith("#") && esNombreValido(palabra.substring(1));
+}
+
+private boolean esCadena(String palabra) {
+    return palabra.length() > 1 && palabra.startsWith("'") && palabra.endsWith("'");
+}
+
+private boolean esColorHexadecimal(String palabra) {
+    if (palabra.length() != 7 && palabra.length() != 4) return false; // Longitud debe ser 7 (#xxxxxx) o 4 (#xxx)
+    if (palabra.charAt(0) != '#') return false; // Debe comenzar con #
+    
+    // Validar caracteres hexadecimales
+    for (int i = 1; i < palabra.length(); i++) {
+        char c = palabra.charAt(i);
+        if (!isHexadecimal(c)) return false;
+    }
+    return true;
+}
+
+private boolean esRgba(String palabra) {
+    // Lógica básica para comprobar formato rgba(r, g, b, a)
+    if (!palabra.startsWith("rgba(") || !palabra.endsWith(")")) return false;
+    String contenido = palabra.substring(5, palabra.length() - 1);
+    String[] valores = contenido.split(",");
+    if (valores.length != 4) return false; // Debe haber 4 valores
+
+    for (String valor : valores) {
+        if (!esNumero(valor.trim()) && !valor.trim().equals("1") && !valor.trim().equals("0")) {
+            return false; // No es un número válido
+        }
+    }
+    return true;
+}
+
+private boolean esIdentificador(String palabra) {
+    // Un identificador comienza con una letra y puede contener letras, números y guiones
+    return !palabra.isEmpty() && Character.isLetter(palabra.charAt(0)) && esNombreValido(palabra);
+}
+
+private boolean esEntero(String palabra) {
+    for (char c : palabra.toCharArray()) {
+        if (!Character.isDigit(c)) return false;
+    }
+    return !palabra.isEmpty();
+}
+
+private boolean esNombreValido(String nombre) {
+    // Comprueba si el nombre es válido (letras, números, y guiones bajos)
+    for (char c : nombre.toCharArray()) {
+        if (!(Character.isLetter(c) || Character.isDigit(c) || c == '_')) return false;
+    }
+    return true;
+}
+
+private boolean isHexadecimal(char c) {
+    return (c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F');
+}
+
+private boolean esNumero(String numero) {
+    for (char c : numero.toCharArray()) {
+        if (!Character.isDigit(c) && c != '.') return false; // Permitir punto decimal
+    }
+    return true;
+}
+
+    public void validarPalabras() {
+
+    
+    // Lista de caracteres especiales para separar
+    char[] separadores = {'>', '+', '~', ':', ';', ',', '(', ')', '*'};
+    
+    // Recorremos cada palabra de la lista original
+    for (String palabra : palabras) {
+        StringBuilder palabraActual = new StringBuilder();
+        boolean dentroDeComillas = false; // Bandera para detectar comillas
+        
+        for (int i = 0; i < palabra.length(); i++) {
+            char caracter = palabra.charAt(i);
+            
+            // Si estamos dentro de comillas, acumulamos caracteres hasta cerrarlas
+            if (dentroDeComillas) {
+                palabraActual.append(caracter);
+                if (caracter == '\'') {
+                    dentroDeComillas = false; // Cerramos comillas
+                    palabrasCSS.add(palabraActual.toString());
+                    palabraActual.setLength(0); // Limpiamos la palabra actual
                 }
+            } else if (caracter == '\'') {
+                // Si encontramos una comilla de apertura
+                if (palabraActual.length() > 0) {
+                    palabrasCSS.add(palabraActual.toString()); // Añadir lo que esté acumulado
+                    palabraActual.setLength(0); // Limpiamos la palabra actual
+                }
+                palabraActual.append(caracter);
+                dentroDeComillas = true; // Activamos modo dentro de comillas
+            } else if (esSeparador(caracter, separadores)) {
+                // Si es un separador, añadir la palabra actual y el separador
+                if (palabraActual.length() > 0) {
+                    palabrasCSS.add(palabraActual.toString()); // Añadir la palabra formada
+                    palabraActual.setLength(0); // Limpiamos la palabra actual
+                }
+                palabrasCSS.add(Character.toString(caracter)); // Añadimos el separador
+            } else {
+                // Continuamos formando la palabra
+                palabraActual.append(caracter);
             }
         }
+        
+        // Añadir la última palabra si quedó algo pendiente
+        if (palabraActual.length() > 0) {
+            palabrasCSS.add(palabraActual.toString());
+        }
+    }
+    
+    // Mostrar las palabras CSS separadas
+    for (String palabra : palabrasCSS) {
+        System.out.println(palabra);
+    }
+}
+
+// Método auxiliar que verifica si el carácter es un separador
+private boolean esSeparador(char caracter, char[] separadores) {
+    for (char sep : separadores) {
+        if (caracter == sep) {
+            return true;
+        }
+    }
+    return false;
+}
+    
+    
+    private void separarPorPalabras(List<String> codigo) {
+        
+         for (String lineaInicial : codigo) {
+        // Quitar espacios en blanco al principio y al final
+        String lineaProcesada = lineaInicial.trim();
+        
+        // Crear una variable para almacenar cada palabra temporalmente
+        StringBuilder palabraActual = new StringBuilder();
+        
+        // Recorrer cada carácter en la línea
+        for (int i = 0; i < lineaProcesada.length(); i++) {
+            char caracter = lineaProcesada.charAt(i);
+            
+            // Si encontramos un espacio o un salto de línea, añadimos la palabra a la lista
+            if (caracter == ' ' || caracter == '\n') {
+                if (palabraActual.length() > 0) {
+                    palabras.add(palabraActual.toString()); // Añadir la palabra
+                    palabraActual.setLength(0); // Limpiar la palabra actual
+                }
+            } else {
+                // Continuamos formando la palabra
+                palabraActual.append(caracter);
+            }
+        }
+        
+        // Añadir la última palabra al final de la línea si no está vacía
+        if (palabraActual.length() > 0) {
+            palabras.add(palabraActual.toString());
+        }
+    }
+
+    // Mostrar las palabras separadas
+    for (String palabra : palabras) {
+        System.out.println(palabra);
+    }
+        
     }
 
     private boolean esDelimitador(char c) {
