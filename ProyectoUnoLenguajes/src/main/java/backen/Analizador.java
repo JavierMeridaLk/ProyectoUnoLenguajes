@@ -21,11 +21,14 @@ public class Analizador {
     }
 
     public void exportarHtml(String texto) {
+        Token token = new Token();
         String[] lineas = separarPorLineas(texto);
         for (String linea : lineas) {
+            System.out.println("---------------------");
             System.out.println(linea);
+            System.out.println("---------------------");
         }
-        separarTipoDeCodigo(lineas);
+        separarTipoDeCodigo(lineas,token);
 
     }
 
@@ -73,7 +76,7 @@ public class Analizador {
         return texto.split("\n");
     }
 
-    public void separarTipoDeCodigo(String[] lineas) {
+    public void separarTipoDeCodigo(String[] lineas,Token token) {
         String estadoActual = ""; // Estado actual (html, css, js)
 
         for (int fila = 0; fila < lineas.length; fila++) {
@@ -101,12 +104,22 @@ public class Analizador {
                 }
             }
         }
-
-        analizadorCSS();
+        AnalizadorCss analizadorCss = new AnalizadorCss();
+        analizadorCss.analizarCss(lineasCSS,token);
+        
+        
 
         analizadorJS();
 
         analizadorHTML(codigoCSS, codigoJS);
+
+        System.out.println("Elementos de la lista:");
+        for (Token tokens : token.getListaDeTokens()) {
+            System.out.println("--");
+            System.out.println("Tipo de token: " + tokens.getTipo());
+            System.out.println("Token: " + tokens.getToken());
+            System.out.println("--");
+        }
 
     }
 

@@ -12,7 +12,12 @@ public class Token {
     private String lenguaje;
     private String expresionRegular;//lo que acepta
     
-    private List<Token> Token = new ArrayList<>();
+    private List<Token> ListaDeTokens = new ArrayList<>();
+
+    
+    private List<Token> TokenError = new ArrayList<>();
+    private List<Token> TokenCss = new ArrayList<>();
+    private List<Token> TokenJs = new ArrayList<>();
     private List<Token> tokenOptimizacion = new ArrayList<>();
 
     //Entrada    
@@ -45,6 +50,37 @@ public class Token {
             
         
 
+    }
+    public List<Token> getListaDeTokens() {
+        return ListaDeTokens;
+    }
+
+    public void setListaDeTokens(List<Token> ListaDeTokens) {
+        this.ListaDeTokens = ListaDeTokens;
+    }
+
+    public List<Token> getTokenError() {
+        return TokenError;
+    }
+
+    public void setTokenError(List<Token> TokenError) {
+        this.TokenError = TokenError;
+    }
+
+    public List<Token> getTokenCss() {
+        return TokenCss;
+    }
+
+    public void setTokenCss(List<Token> TokenCss) {
+        this.TokenCss = TokenCss;
+    }
+
+    public List<Token> getTokenJs() {
+        return TokenJs;
+    }
+
+    public void setTokenJs(List<Token> TokenJs) {
+        this.TokenJs = TokenJs;
     }
 
     public String getToken() {
