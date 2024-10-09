@@ -112,22 +112,9 @@ public class Analizador {
         AnalizadorJs analizadorJs = new AnalizadorJs();
         analizadorJs.analizarJs(lineasJS,token);
 
-       
+        AnalizadorHtml analizadorHtml = new AnalizadorHtml();
+        codigoHTML= analizadorHtml.analizarHtml(token, lineasHTML);
 
-        analizadorHTML(codigoCSS, codigoJS);
-         System.out.println("impresion de tokens");
-          System.out.println("---------------------");
-        for (Token tokens : token.getListaDeTokens()) {
-             System.out.println("--------------------------------------------------------");
-            System.out.println("Token: "+tokens.getToken());
-            System.out.println("Tipo: "+tokens.getTipo());
-            System.out.println("Expresion Regular: "+tokens.getExpresionRegular());
-            System.out.println("Lenguaje: "+tokens.getLenguaje());
-              System.out.println("--------------------------------------------------------");
-        }
-         System.out.println("---------------------");
-
-        
     }
 
     private void mostrarLineasPorEstado() {
