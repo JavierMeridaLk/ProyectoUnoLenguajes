@@ -23,11 +23,13 @@ public class Analizador {
     public void exportarHtml(String texto) {
         Token token = new Token();
         String[] lineas = separarPorLineas(texto);
+        System.out.println("---------------------");
         for (String linea : lineas) {
-            System.out.println("---------------------");
+            
             System.out.println(linea);
-            System.out.println("---------------------");
+           
         }
+         System.out.println("---------------------");
         separarTipoDeCodigo(lineas,token);
 
     }
@@ -107,20 +109,25 @@ public class Analizador {
         AnalizadorCss analizadorCss = new AnalizadorCss();
         analizadorCss.analizarCss(lineasCSS,token);
         
-        
+        AnalizadorJs analizadorJs = new AnalizadorJs();
+        analizadorJs.analizarJs(lineasJS,token);
 
-        analizadorJS();
+       
 
         analizadorHTML(codigoCSS, codigoJS);
-
-        System.out.println("Elementos de la lista:");
+         System.out.println("impresion de tokens");
+          System.out.println("---------------------");
         for (Token tokens : token.getListaDeTokens()) {
-            System.out.println("--");
-            System.out.println("Tipo de token: " + tokens.getTipo());
-            System.out.println("Token: " + tokens.getToken());
-            System.out.println("--");
+             System.out.println("--------------------------------------------------------");
+            System.out.println("Token: "+tokens.getToken());
+            System.out.println("Tipo: "+tokens.getTipo());
+            System.out.println("Expresion Regular: "+tokens.getExpresionRegular());
+            System.out.println("Lenguaje: "+tokens.getLenguaje());
+              System.out.println("--------------------------------------------------------");
         }
+         System.out.println("---------------------");
 
+        
     }
 
     private void mostrarLineasPorEstado() {
