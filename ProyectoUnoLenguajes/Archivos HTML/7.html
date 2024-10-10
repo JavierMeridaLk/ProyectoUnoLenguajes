@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 7 </title>
+    <style>
+      
+body {
+font-family: 'Arial', sans-serif;
+margin: 0;
+padding: 0;
+background-color: #f4f4f4;
+color: #333;
+}
+
+
+
+
+    </style>
+    <script>
+      function showSection(sectionId) {
+const sections = document.querySelectorAll('#main-content > div');
+sections.forEach(section => {
+
+section.style.display = 'none';
+
+section.style.background = 'red';
+});
+
+// Aplicar display a la section
+document.getElementById(sectionId).style.display = 'block';
+}
+
+showSection('contact');
+
+
+    </script>
+  </head>
+  <body>
+    <div id="showcase">
+<div class="container">
+<h1>
+Bienvenido a Mi Página
+</h1>
+<p>
+Explora nuestro contenido y conoce más sobre nosotros.
+</p>
+<!-- END -->
+</div>
+</div>
+
+  </body>
+</html>

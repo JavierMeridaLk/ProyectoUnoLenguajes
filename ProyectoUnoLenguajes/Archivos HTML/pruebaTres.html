@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> pruebaTres </title>
+    <style>
+      body {
+font-family: 'Arial', sans-serif;
+background-color: #fff;
+margin: 0;
+padding: 0;
+}
+
+h1, h2 {
+color: #333;
+}
+
+a {
+color: #007bff;
+text-decoration: none;
+}
+
+a:hover {
+text-decoration: underline;
+}
+
+
+    </style>
+    <script>
+      function mostrarSeccion(idSeccion) {
+const secciones = document.querySelectorAll('section');
+secciones.forEach((seccion) => {
+seccion.style.display = 'none';
+});
+document.getElementById(idSeccion).style.display = 'block';
+}
+
+    </script>
+  </head>
+  <body>
+    <header>
+<h1>
+Mi Blog Personal
+</h1>
+<nav>
+<li>
+<a href="#inicio">
+Inicio
+</a>
+</itemlista>
+<li>
+<a href="#sobre-mi">
+Sobre Mí
+</a>
+</itemlista>
+<li>
+<a href="#contacto">
+Contacto
+</a>
+</itemlista>
+</nav>
+</header>
+<main>
+<section>
+<h2>
+Bienvenido a Mi Blog
+</h2>
+<p>
+Aquí encontrarás artículos sobre programación, tecnología y más.
+</p>
+</section>
+</main>
+<footer>
+<p>
+Derechos reservados 2024
+</p>
+</footer>
+
+  </body>
+</html>

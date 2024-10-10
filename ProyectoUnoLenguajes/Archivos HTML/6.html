@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 6 </title>
+    <style>
+      body {
+font-family: 'Arial', sans-serif;
+background-color: #f0f0f0;
+margin: 0;
+padding: 0;
+}
+
+#main-content {
+padding: 20px;
+}
+
+#contact input, #contact textarea {
+width: 100%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+
+#contact button {
+background-color: #4CAF50;
+color: white;
+padding: 15px 20px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+}
+
+#contact button:hover {
+background-color: #45a049;
+}
+
+
+    </style>
+    <script>
+      document.querySelectorAll("nav a").forEach(link => {
+link.addEventListener("click", function() {
+document.querySelectorAll("#main-content section").forEach(section => {
+section.style.display = "none";
+});
+
+const sectionId = this.getAttribute("href").substring(1);
+document.getElementById(sectionId).style.display = "block";
+});
+});
+
+// Por defecto mostrar la sección "home"
+document.getElementById("home").style.display = "block";
+
+    </script>
+  </head>
+  <body>
+    <main>
+<header>
+<nav>
+<ul>
+<li>
+<a href="#home">
+Inicio
+</anclaje>
+</itemlista>
+<li>
+<a href="#about">
+Sobre Nosotros
+</anclaje>
+</itemlista>
+<li>
+<a href="#contact">
+Contacto
+</anclaje>
+</itemlista>
+</listaordenada>
+</navegacion>
+</encabezado>
+<div id="main-content">
+<section id="home">
+<h1>
+Bienvenido a Mi Web
+</titulo1>
+<p>
+Explora el contenido y descubre más.
+</parrafo>
+</seccion>
+<section id="about">
+<h2>
+Sobre Nosotros
+</titulo2>
+<p>
+Somos una empresa dedicada al desarrollo web.
+</parrafo>
+</seccion>
+<section id="contact">
+<h2>
+Contacto
+</titulo2>
+<form>
+<label for="name">
+Nombre:
+</label>
+<input type="text" id="name" name="name" placeholder="Tu nombre"/>
+<label for="email">
+Correo:
+</label>
+<input type="email" id="email" name="email" placeholder="Tu correo"/>
+<label for="message">
+Mensaje:
+</label>
+<textarea id="message" name="message">
+</area>
+<button type="submit">
+Enviar
+</boton>
+</formulario>
+</seccion>
+</contenedor>
+</principal>
+
+  </body>
+</html>

@@ -1,7 +1,14 @@
 package backen;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 public class Analizador {
 
@@ -14,7 +21,7 @@ public class Analizador {
     private List<String> codigoJS = new ArrayList<>();    // Para almacenar las líneas de JS
 
     private List<String> codigoOptimizado = new ArrayList<>();
-     private List<Token> tokenOptimizacion = new ArrayList<>();
+    private List<Token> tokenOptimizacion = new ArrayList<>();
 
     public Analizador() {
 
@@ -23,16 +30,69 @@ public class Analizador {
     public void exportarHtml(String texto) {
         Token token = new Token();
         String[] lineas = separarPorLineas(texto);
-        System.out.println("---------------------");
-        for (String linea : lineas) {
-            
-            System.out.println(linea);
-           
-        }
-         System.out.println("---------------------");
-        separarTipoDeCodigo(lineas,token);
+        separarTipoDeCodigo(lineas, token);
+        crearHtml();
 
     }
+
+    public void crearHtml() {
+        File carpeta = new File("Archivos HTML");
+
+        // Crear la carpeta si no existe
+        if (!carpeta.exists()) {
+            carpeta.mkdirs();
+        }
+
+        try {
+            String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre del Archivo HTML", "Nombre", JOptionPane.QUESTION_MESSAGE);
+            File archivo = new File(carpeta, nombre + ".html");
+
+            
+            String css = "";
+            String js = "";
+            String htmlBody="";
+            
+            for (String linea : lineasCSS) {
+                css= css+linea+"\n";
+            }
+            for (String linea : lineasJS) {
+                js= js+linea+"\n";
+            }
+            for (String linea : codigoHTML) {
+                htmlBody= htmlBody+linea+"\n";
+            }
+            
+            // Crear el código HTML final
+            String codigoHtmlFinal =""
+                    + "<!DOCTYPE html>"+"\n"
+                    +"<html lang=\"es\">" +"\n"
+                    +"  <head>" +"\n"
+                    +"    <meta charset=\"UTF-8\">" +"\n"
+                    +"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +"\n"
+                    +"    <title> "+ nombre +" </title>" +"\n"
+                    +"    <style>" +"\n"
+                    +"      "+css+""+"\n"
+                    +"    </style>" +"\n"
+                    +"    <script>" +"\n"
+                    +"      "+js+"" +"\n"
+                    +"    </script>" +"\n"
+                    +"  </head>" +"\n"
+                    +"  <body>" +"\n"
+                    +"    "+htmlBody+"" +"\n"
+                    +"  </body>" +"\n"
+                    +"</html>"  +"\n"      ;
+            // Guardar el archivo
+            try (FileWriter writer = new FileWriter(archivo)) {
+                writer.write(codigoHtmlFinal);
+            }
+
+            JOptionPane.showMessageDialog(null, "Archivo HTML guardado en la carpeta: " + carpeta.getAbsolutePath(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error al guardar el archivo HTML", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 
     public List<String> optimizarCodigo(String texto) {
         Token token = new Token();
@@ -47,7 +107,6 @@ public class Analizador {
             } else {
                 contadorDeEspaciosVacios = 0;
             }
-            
             if (contadorDeEspaciosVacios > 0 || tieneComentario(lineas[i])) {
                 token.getTokenOptimizacion().add(token);
                 agregar = false;
@@ -59,7 +118,6 @@ public class Analizador {
                 codigoOptimizado.add(lineas[i]);
             }
         }
-
         return codigoOptimizado;
     }
 
@@ -78,12 +136,11 @@ public class Analizador {
         return texto.split("\n");
     }
 
-    public void separarTipoDeCodigo(String[] lineas,Token token) {
+    public void separarTipoDeCodigo(String[] lineas, Token token) {
         String estadoActual = ""; // Estado actual (html, css, js)
 
         for (int fila = 0; fila < lineas.length; fila++) {
             String linea = lineas[fila].trim(); // Elimina espacios en blanco al principio y al final de la línea
-
             // Verifica si se ha encontrado un cambio de estado
             if (linea.equals(">>[html]")) {
                 estadoActual = "html";
@@ -107,47 +164,12 @@ public class Analizador {
             }
         }
         AnalizadorCss analizadorCss = new AnalizadorCss();
-        analizadorCss.analizarCss(lineasCSS,token);
-        
+        analizadorCss.analizarCss(lineasCSS, token);
+
         AnalizadorJs analizadorJs = new AnalizadorJs();
-        analizadorJs.analizarJs(lineasJS,token);
+        analizadorJs.analizarJs(lineasJS, token);
 
         AnalizadorHtml analizadorHtml = new AnalizadorHtml();
-        codigoHTML= analizadorHtml.analizarHtml(token, lineasHTML);
-
+        codigoHTML = analizadorHtml.analizarHtml(token, lineasHTML);
     }
-
-    private void mostrarLineasPorEstado() {
-
-    }
-
-    public void analizadorHTML(List<String> codigoCSS, List<String> codigoJS) {
-        System.out.println("-------------------");
-        System.out.println("HTML Lines:");
-        System.out.println("-------------------");
-        for (String linea : lineasHTML) {
-            System.out.println(linea);
-        }
-    }
-
-    public void analizadorCSS() {
-        System.out.println("-------------------");
-
-        System.out.println("CSS Lines:");
-        System.out.println("-------------------");
-        for (String linea : lineasCSS) {
-            System.out.println(linea);
-        }
-    }
-
-    public void analizadorJS() {
-        System.out.println("-------------------");
-        System.out.println("JS Lines:");
-        System.out.println("-------------------");
-        for (String linea : lineasJS) {
-            System.out.println(linea);
-        }
-
-    }
-
 }

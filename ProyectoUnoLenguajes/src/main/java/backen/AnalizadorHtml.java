@@ -217,7 +217,15 @@ public class AnalizadorHtml {
             } else {
                 codigoHTML.add(palabra);
             }
+            
+            
         }
+        System.out.println("---------------------------");
+        System.out.println("Palabras traducidas");
+        for (String string : codigoHTML) {
+            System.out.println(string);
+        }
+        System.out.println("----------------------------");
     }
 
     private boolean existeEnArreglo(String palabra, String[] arreglo) {
