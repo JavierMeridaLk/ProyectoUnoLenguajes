@@ -1,6 +1,7 @@
 
 package fronted;
 import backen.Analizador;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,12 @@ import javax.swing.event.DocumentListener;
 
 public class JFramePrincipal extends javax.swing.JFrame {
 private List<String> codigoOptimizado = new ArrayList<>();
+private reportesToken reportesToken;
+private reportesError reportesError;
+
     public JFramePrincipal() {
+        reportesToken = new reportesToken(this,true);
+        reportesError = new reportesError(this,true);
         initComponents();
         limpiar();
         this.setSize(1100, 630);
@@ -73,6 +79,9 @@ private List<String> codigoOptimizado = new ArrayList<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -170,6 +179,26 @@ private List<String> codigoOptimizado = new ArrayList<>();
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Reportes");
+
+        jMenuItem1.setText("Reporte de Tokens");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuItem2.setText("Reporte de Optimizacion");
+        jMenu2.add(jMenuItem2);
+
+        jMenuItem3.setText("Reporte de Errores");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -205,14 +234,14 @@ private List<String> codigoOptimizado = new ArrayList<>();
 
     private void botonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExportarActionPerformed
         // TODO add your handling code here:
-        Analizador analizador = new Analizador();
+        Analizador analizador = new Analizador(reportesToken,reportesError);
         analizador.exportarHtml(taTexto.getText());
         
     }//GEN-LAST:event_botonExportarActionPerformed
 
     private void botonOptimizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonOptimizarActionPerformed
         // TODO add your handling code here:
-        Analizador analizador = new Analizador();
+        Analizador analizador = new Analizador(reportesToken,reportesError);
         codigoOptimizado = analizador.optimizarCodigo(taTexto.getText());
         taTexto.setText("");
 
@@ -229,6 +258,19 @@ private List<String> codigoOptimizado = new ArrayList<>();
         jPanel4.setVisible(true);
         limpiar();
     }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        
+        reportesToken.setVisible(true);
+      
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        reportesError.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void limpiar() {
         botonExportar.setEnabled(false);
@@ -248,6 +290,9 @@ private List<String> codigoOptimizado = new ArrayList<>();
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

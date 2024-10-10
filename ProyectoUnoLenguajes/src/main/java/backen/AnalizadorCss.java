@@ -74,9 +74,13 @@ public class AnalizadorCss {
             } else {
                 // Si es un error
                 agregar = false;
+                expresion = palabra;
+                tipo = "Error";
                 System.out.println(palabra + " es un error.");
                 tokenNuevo.setToken(palabra);
+                tokenNuevo.setExpresionRegular(expresion);
                 tokenNuevo.setLenguaje(lenguaje);
+                tokenNuevo.setTipo(tipo);
                 token.getTokenError().add(tokenNuevo);
             }
             if (agregar) {

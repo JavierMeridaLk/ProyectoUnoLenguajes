@@ -1,5 +1,7 @@
 package backen;
 
+import fronted.reportesError;
+import fronted.reportesToken;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,16 +24,27 @@ public class Analizador {
 
     private List<String> codigoOptimizado = new ArrayList<>();
     private List<Token> tokenOptimizacion = new ArrayList<>();
+    
+    private reportesToken reporteToken;
+    private reportesError reportesError;
 
-    public Analizador() {
-
+    public Analizador(reportesToken reporteToken, reportesError reportesError) {
+    this.reporteToken=reporteToken;
+    this.reportesError=reportesError;
+    
     }
 
     public void exportarHtml(String texto) {
         Token token = new Token();
+        Reportes reporte = new Reportes();
         String[] lineas = separarPorLineas(texto);
         separarTipoDeCodigo(lineas, token);
         crearHtml();
+        reporte.setToken(token);
+        reporteToken.subirTabla(reporte.reporteToken());
+        reportesError.subirTabla(reporte.reporteError());
+        
+        
 
     }
 
