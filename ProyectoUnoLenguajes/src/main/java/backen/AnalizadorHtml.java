@@ -9,7 +9,7 @@ public class AnalizadorHtml {
     private List<String> palabras;
     private List<String> codigoHTML;
     private final String[] TIPO_DE_CIERRE_ESP = {"<principal/>", "<encabezado/>", "<navegacion/>", "<apartado/>", "<listaordenada/>", "<listadesordenada/>", "<itemlista/>", "<anclaje/>", "<contenedor/>",
-        "<seccion/>", "<articulo/>", "<titulo1/>", "<titulo2/>", "<titulo3/>", "<titulo4/>", "<titulo5/>", "<titulo6/>", "<parrafo/>", "<span/>", "<entrada/>",
+        "<seccion/>", "<articulo/>", "<titulo1/>", "<titulo2/>", "<titulo3/>", "<titulo4/>", "<titulo5/>", "<titulo6/>", "<parrafo/>", "<span/>",
         "<formulario/>", "<label/>", "<area/>", "<boton/>", "<piepagina/>"};
     private final String[] TIPO_DE_APERTURA_ESP = {"<principal", "<encabezado", "<navegacion", "<apartado", "<listaordenada", "<listadesordenada", "<itemlista",
         "<anclaje", "<contenedor", "<seccion", "<articulo", "<parrafo", "<span", "<formulario", "<label", "<boton", "<piepagina", "<titulo1", "<titulo2",
@@ -108,9 +108,6 @@ public class AnalizadorHtml {
                     case "<span/>":
                         codigoHTML.add("</span>");
                         break;
-                    case "<entrada/>":
-                        codigoHTML.add("</input>");
-                        break;
                     case "<formulario/>":
                         codigoHTML.add("</form>");
                         break;
@@ -193,7 +190,7 @@ public class AnalizadorHtml {
                     case "<span":
                         palabraTemporal = "<span" + restoPalabra;
                         break;
-                    case "<entrada":
+                    case "<entrada/":
                         palabraTemporal = "<input" + restoPalabra;
                         break;
                     case "<formulario":
