@@ -24,14 +24,14 @@ public class Analizador {
 
     private List<String> codigoOptimizado = new ArrayList<>();
     private List<Token> tokenOptimizacion = new ArrayList<>();
-    
+
     private reportesToken reporteToken;
     private reportesError reportesError;
 
     public Analizador(reportesToken reporteToken, reportesError reportesError) {
-    this.reporteToken=reporteToken;
-    this.reportesError=reportesError;
-    
+        this.reporteToken = reporteToken;
+        this.reportesError = reportesError;
+
     }
 
     public void exportarHtml(String texto) {
@@ -43,8 +43,6 @@ public class Analizador {
         reporte.setToken(token);
         reporteToken.subirTabla(reporte.reporteToken());
         reportesError.subirTabla(reporte.reporteError());
-        
-        
 
     }
 
@@ -60,40 +58,39 @@ public class Analizador {
             String nombre = JOptionPane.showInputDialog(null, "Ingrese el nombre del Archivo HTML", "Nombre", JOptionPane.QUESTION_MESSAGE);
             File archivo = new File(carpeta, nombre + ".html");
 
-            
             String css = "";
             String js = "";
-            String htmlBody="";
-            
+            String htmlBody = "";
+
             for (String linea : lineasCSS) {
-                css= css+linea+"\n";
+                css = css + linea + "\n";
             }
             for (String linea : lineasJS) {
-                js= js+linea+"\n";
+                js = js + linea + "\n";
             }
             for (String linea : codigoHTML) {
-                htmlBody= htmlBody+linea+"\n";
+                htmlBody = htmlBody + linea + "\n";
             }
-            
+
             // Crear el código HTML final
-            String codigoHtmlFinal =""
-                    + "<!DOCTYPE html>"+"\n"
-                    +"<html lang=\"es\">" +"\n"
-                    +"  <head>" +"\n"
-                    +"    <meta charset=\"UTF-8\">" +"\n"
-                    +"    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +"\n"
-                    +"    <title> "+ nombre +" </title>" +"\n"
-                    +"    <style>" +"\n"
-                    +"      "+css+""+"\n"
-                    +"    </style>" +"\n"
-                    +"    <script>" +"\n"
-                    +"      "+js+"" +"\n"
-                    +"    </script>" +"\n"
-                    +"  </head>" +"\n"
-                    +"  <body>" +"\n"
-                    +"    "+htmlBody+"" +"\n"
-                    +"  </body>" +"\n"
-                    +"</html>"  +"\n"      ;
+            String codigoHtmlFinal = ""
+                    + "<!DOCTYPE html>" + "\n"
+                    + "<html lang=\"es\">" + "\n"
+                    + "  <head>" + "\n"
+                    + "    <meta charset=\"UTF-8\">" + "\n"
+                    + "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" + "\n"
+                    + "    <title> " + nombre + " </title>" + "\n"
+                    + "    <style>" + "\n"
+                    + "      " + css + "" + "\n"
+                    + "    </style>" + "\n"
+                    + "    <script>" + "\n"
+                    + "      " + js + "" + "\n"
+                    + "    </script>" + "\n"
+                    + "  </head>" + "\n"
+                    + "  <body>" + "\n"
+                    + "    " + htmlBody + "" + "\n"
+                    + "  </body>" + "\n"
+                    + "</html>" + "\n";
             // Guardar el archivo
             try (FileWriter writer = new FileWriter(archivo)) {
                 writer.write(codigoHtmlFinal);
@@ -105,7 +102,6 @@ public class Analizador {
             JOptionPane.showMessageDialog(null, "Error al guardar el archivo HTML", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
 
     public List<String> optimizarCodigo(String texto) {
         Token token = new Token();

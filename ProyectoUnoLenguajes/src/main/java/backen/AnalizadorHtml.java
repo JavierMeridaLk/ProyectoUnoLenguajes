@@ -214,15 +214,9 @@ public class AnalizadorHtml {
             } else {
                 codigoHTML.add(palabra);
             }
-            
-            
+
         }
-        System.out.println("---------------------------");
-        System.out.println("Palabras traducidas");
-        for (String string : codigoHTML) {
-            System.out.println(string);
-        }
-        System.out.println("----------------------------");
+        
     }
 
     private boolean existeEnArreglo(String palabra, String[] arreglo) {
@@ -254,10 +248,7 @@ public class AnalizadorHtml {
                 procesarLinea(lineaProcesada, palabras);
             }
         }
-        // Mostrar las palabras separadas
-        for (String palabra : palabras) {
-            System.out.println(palabra);
-        }
+      
     }
 
 // Método auxiliar para procesar etiquetas HTML y texto sin dividir el contenido dentro

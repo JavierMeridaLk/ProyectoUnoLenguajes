@@ -11,46 +11,18 @@ public class Token {
     private String columna;
     private String lenguaje;
     private String expresionRegular;//lo que acepta
-    
+
     private List<Token> ListaDeTokens = new ArrayList<>();
 
-    
     private List<Token> TokenError = new ArrayList<>();
     private List<Token> TokenCss = new ArrayList<>();
     private List<Token> TokenJs = new ArrayList<>();
     private List<Token> tokenOptimizacion = new ArrayList<>();
 
-    //Entrada    
-    private final String[] ENTRADA_HTML = {
-        "principal", "encabezado", "navegacion", "apartado", "listaordenada",
-        "listadesordenada", "itemlista", "anclaje", "contenedor", "seccion",
-        "articulo", "titulo", "parrafo", "span", "entrada", "formulario",
-        "label", "area", "boton", "piepagina"
-    };
-
-    //Traduccion
-    private final String[] TRADUCCION_HTML = {
-        "main", "header", "nav", "aside", "ul", "ol", "li", "a", "div",
-        "section", "article", "h#", "p", "span", "input", "form",
-        "label", "textarea", "button", "footer"
-    };
-
-    //Tipo
-    private final String[] TIPO_DE_TOKEN_HTML = {
-        "Apertura", "Cierre", "Una línea",};
-
     public Token() {
 
     }
-    
 
-    public void crearTokenHTML(Token token) {
-        
-        
-            
-        
-
-    }
     public List<Token> getListaDeTokens() {
         return ListaDeTokens;
     }

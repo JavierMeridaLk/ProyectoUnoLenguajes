@@ -103,6 +103,7 @@ public class AnalizadorCss {
         return false;
     }
 // Métodos auxiliares para validar cada tipo de palabra
+
     private boolean esClase(String palabra) {
         return palabra.length() > 1 && palabra.startsWith(".") && esNombreValido(palabra.substring(1));
     }
@@ -193,7 +194,7 @@ public class AnalizadorCss {
         for (String palabra : palabras) {
             StringBuilder palabraActual = new StringBuilder();
             boolean dentroDeComillas = false; // Booleano para indicar que estamos en un comentario
-            
+
             for (int i = 0; i < palabra.length(); i++) {
                 char caracter = palabra.charAt(i);
                 // Si estamos dentro de comillas, acumulamos caracteres hasta cerrarlas
@@ -211,7 +212,7 @@ public class AnalizadorCss {
                         palabraActual.setLength(0); // Limpiamos la palabra actual
                     }
                     palabraActual.append(caracter);
-                    dentroDeComillas = true; 
+                    dentroDeComillas = true;
                 } else if (esSeparador(caracter, separadores)) {
                     // Si es un separador, añadir la palabra actual y el separador
                     if (palabraActual.length() > 0) {
@@ -230,6 +231,7 @@ public class AnalizadorCss {
         }
     }
 // Método auxiliar que verifica si el carácter es un separador
+
     private boolean esSeparador(char caracter, char[] separadores) {
         for (char caracterIngresado : separadores) {
             if (caracter == caracterIngresado) {

@@ -49,6 +49,7 @@ public class Reportes {
         }
         return table;
     }
+
     public JTable reporteError() {
         String[] columnNames = {"Token", "Expresión Regular", "Lenguaje", "Tipo"};
 

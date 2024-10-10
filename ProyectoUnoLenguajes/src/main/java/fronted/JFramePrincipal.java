@@ -1,5 +1,5 @@
-
 package fronted;
+
 import backen.Analizador;
 
 import java.awt.Color;
@@ -9,13 +9,14 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class JFramePrincipal extends javax.swing.JFrame {
-private List<String> codigoOptimizado = new ArrayList<>();
-private reportesToken reportesToken;
-private reportesError reportesError;
+
+    private List<String> codigoOptimizado = new ArrayList<>();
+    private reportesToken reportesToken;
+    private reportesError reportesError;
 
     public JFramePrincipal() {
-        reportesToken = new reportesToken(this,true);
-        reportesError = new reportesError(this,true);
+        reportesToken = new reportesToken(this, true);
+        reportesError = new reportesError(this, true);
         initComponents();
         limpiar();
         this.setSize(1100, 630);
@@ -85,7 +86,7 @@ private reportesError reportesError;
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+        jPanel1.setBorder(null);
 
         jLabel1.setFont(new java.awt.Font("Ubuntu Sans", 0, 24)); // NOI18N
         jLabel1.setText("Analizador Lexico");
@@ -106,7 +107,7 @@ private reportesError reportesError;
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+        jPanel3.setBorder(null);
 
         taTexto.setColumns(20);
         taTexto.setRows(5);
@@ -131,7 +132,7 @@ private reportesError reportesError;
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 0)));
+        jPanel4.setBorder(null);
 
         botonExportar.setFont(new java.awt.Font("DejaVu Sans Condensed", 2, 18)); // NOI18N
         botonExportar.setText("Exportar HTML");
@@ -157,7 +158,7 @@ private reportesError reportesError;
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(botonExportar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonOptimizar, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+                    .addComponent(botonOptimizar, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -226,7 +227,7 @@ private reportesError reportesError;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -234,14 +235,14 @@ private reportesError reportesError;
 
     private void botonExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonExportarActionPerformed
         // TODO add your handling code here:
-        Analizador analizador = new Analizador(reportesToken,reportesError);
+        Analizador analizador = new Analizador(reportesToken, reportesError);
         analizador.exportarHtml(taTexto.getText());
-        
+
     }//GEN-LAST:event_botonExportarActionPerformed
 
     private void botonOptimizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonOptimizarActionPerformed
         // TODO add your handling code here:
-        Analizador analizador = new Analizador(reportesToken,reportesError);
+        Analizador analizador = new Analizador(reportesToken, reportesError);
         codigoOptimizado = analizador.optimizarCodigo(taTexto.getText());
         taTexto.setText("");
 
@@ -249,7 +250,7 @@ private reportesError reportesError;
         for (String elemento : codigoOptimizado) {
             taTexto.append(elemento + "\n"); // Agrega cada elemento en una nueva línea
         }
-        
+
     }//GEN-LAST:event_botonOptimizarActionPerformed
 
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
@@ -261,10 +262,10 @@ private reportesError reportesError;
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        
+
         reportesToken.setVisible(true);
-      
-        
+
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed

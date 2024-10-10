@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<indexing>
+ <paragraph index="9" node_type="writer">Manual Tecnico – Analizador Lexico</paragraph>
+ <paragraph index="10" node_type="writer">Realizado por: Javier Alejandro Mérida Gómez – 202230368</paragraph>
+ <paragraph index="12" node_type="writer">Descripción:</paragraph>
+ <paragraph index="13" node_type="writer">Desarrollar múltiples analizadores léxicos personalizados, uno para cada tipo de lenguaje (HTML, CSS, Javascript), capaces de reconocer y clasificar cada componente léxico y errores que se puedan encontrar en el código fuente.</paragraph>
+ <paragraph index="15" node_type="writer">Requisitos del Sistema</paragraph>
+ <paragraph index="16" node_type="writer">Plataforma: El analizador Léxico fue desarrollado para ejecutarse en sistemas operativos Windows y Linux.</paragraph>
+ <paragraph index="17" node_type="writer">Entorno de Desarrollo: Se utilizó Apache NetBeans IDE 20 para el desarrollo del código.</paragraph>
+ <paragraph index="18" node_type="writer">Lenguaje de Programación: El analizador Léxico se implementó en Java (Programación Orientada a Objetos), versión 17.</paragraph>
+ <paragraph index="19" node_type="writer">Sistema de Desarrollo: El desarrollo se llevó a cabo en un entorno Ubuntu Linux.</paragraph>
+ <paragraph index="20" node_type="writer">Link del repositorio: https://github.com/JavierMeridaLk/ProyectoUnoLenguajes</paragraph>
+ <paragraph index="21" node_type="writer">Componentes  del analizador Léxico</paragraph>
+ <paragraph index="22" node_type="writer">Backen:</paragraph>
+ <paragraph index="23" node_type="writer">Analizador: es responsable de analizar y procesar código HTML, CSS y JavaScript. Se encarga de separar las líneas de código por tipo, optimizar el código y generar un archivo HTML a partir de las líneas analizadas. Utiliza otras clases para analizar CSS, JavaScript y HTML, y genera reportes de tokens y errores.</paragraph>
+ <paragraph index="24" node_type="writer">exportarHtml(String texto): Separa el texto en líneas, identifica el tipo de código (HTML, CSS, JS), genera el código HTML final y lo guarda en un archivo.</paragraph>
+ <paragraph index="25" node_type="writer">crearHtml():Crea un archivo HTML en una carpeta especificada, incluyendo las secciones de CSS y JavaScript. Pide al usuario el nombre del archivo a guardar.</paragraph>
+ <paragraph index="26" node_type="writer">optimizarCodigo(String texto): Optimiza el código eliminando líneas vacías o comentarios y devuelve el código optimizado.</paragraph>
+ <paragraph index="27" node_type="writer">separarPorLineas(String texto): Separa el texto en líneas usando saltos de línea como delimitadores y devuelve un arreglo de líneas.</paragraph>
+ <paragraph index="28" node_type="writer">separarTipoDeCodigo(String[] lineas, Token token):Identifica y clasifica cada línea de código como HTML, CSS o JavaScript y las almacena en las listas correspondientes.</paragraph>
+ <paragraph index="29" node_type="writer">AnalizadorCss:se encarga de analizar y validar código CSS, separando palabras y clasificándolas en diferentes categoría:</paragraph>
+ <paragraph index="30" node_type="writer">analizarCss(List&lt;String&gt; codigo, Token token): Analiza el código CSS proporcionado, separando palabras y validándolas, además de generar tokens que representan cada palabra encontrada.</paragraph>
+ <paragraph index="31" node_type="writer">existeEnArreglo(String palabra, String[] arreglo): Verifica si una palabra dada existe dentro de un arreglo de cadenas.</paragraph>
+ <paragraph index="32" node_type="writer">validarPalabras(): Valida las palabras separadas, identificando caracteres especiales y agrupándolas en listas según su tipo.</paragraph>
+ <paragraph index="33" node_type="writer">separarPorPalabras(List&lt;String&gt; codigo): Separa el código CSS en palabras individuales, eliminando espacios y saltos de línea.</paragraph>
+ <paragraph index="34" node_type="writer">esSeparador(char caracter, char[] separadores): Verifica si un carácter es uno de los separadores definidos.</paragraph>
+ <paragraph index="35" node_type="writer">AnalizadorHtml: Se encarga de la traducción y verificación de código HTML:</paragraph>
+ <paragraph index="36" node_type="writer">Método analizarHtml(Token token, List&lt;String&gt; codigo):Este es el método principal que se encarga de analizar el HTML. Llama a otros métodos para separar palabras, caracteres, validar palabras y traducirlas.</paragraph>
+ <paragraph index="37" node_type="writer">Método traducirPalabras(): Traducir etiquetas HTML personalizadas a sus equivalentes en HTML estándar, utiliza un switch para identificar etiquetas de cierre y apertura, así como comentarios. Añade las traducciones a la lista codigoHTML.</paragraph>
+ <paragraph index="38" node_type="writer">Método separarPalabras(List&lt;String&gt; codigo): Separa las palabras de cada línea de código HTML. Considera comentarios que comienzan con // y procesa cada línea para extraer etiquetas y texto.</paragraph>
+ <paragraph index="39" node_type="writer">Método procesarLinea(String linea, List&lt;String&gt; palabras): Procesa cada línea de código HTML, identificando etiquetas (&lt;...&gt;) y separando el texto que no está dentro de etiquetas.</paragraph>
+ <paragraph index="40" node_type="writer">6. Método separarCaracteres(): Separa los caracteres de las palabras y gestiona cadenas y comentarios dentro del código HTML. Separa palabras reservadas, etiquetas y otros caracteres como =, &lt;, y &gt;.</paragraph>
+ <paragraph index="41" node_type="writer">AnalizadorJs: se encarga de analizar código JavaScript, separando palabras y clasificándolas en diferentes tipos de tokens. Utiliza listas para almacenar las palabras procesadas y las palabras específicas de JavaScript:</paragraph>
+ <paragraph index="42" node_type="writer">separarPalabras(List&lt;String&gt; codigo):Procesa cada línea de código, separa las palabras, considerando comentarios de línea que comienzan con //.</paragraph>
+ <paragraph index="43" node_type="writer">verificarPalabras(): clasifica cada palabra en palabras y las verifica para identificar símbolos, operadores y cadenas, separa las palabras en base a caracteres especiales y operadores de dos caracteres ,agrega comentarios a la lista palabrasJS como una sola palabra.</paragraph>
+ <paragraph index="44" node_type="writer">analizarJs(List&lt;String&gt; codigo, Token token):</paragraph>
+ <paragraph index="45" node_type="writer">Método principal que combina el análisis de palabras y la verificación, clasifica cada palabra en un token y determina su tipo (número, operador, palabra reservada, etc.). Genera un nuevo token para cada palabra clasificada.</paragraph>
+ <paragraph index="46" node_type="writer">Reportes: Se encarga de generar reportes relacionados con los tokens y errores en el análisis léxico. Utiliza un JTable para mostrar la información en forma tabular:</paragraph>
+ <paragraph index="47" node_type="writer">JTable reporteToken(): Crea un JTable que muestra un reporte de los tokens procesados. Llena el modelo con la información de los tokens utilizando un bucle que recorre la lista de tokens. Retorna un objeto JTable con los datos de los tokens.</paragraph>
+ <paragraph index="48" node_type="writer">JTable reporteError(): Crea un JTable que muestra un reporte de los errores procesados. Llena el modelo con la información de los tokens utilizando un bucle que recorre la lista de errores. Retorna un objeto JTable con los datos de los errores.</paragraph>
+ <paragraph index="49" node_type="writer">Token: La clase token es un objeto que es utilizado como POYO en el desarrollo de la listas de los token de error, token o de optimizacion, cuenta con los siguientes atributos y getters y setters:</paragraph>
+ <paragraph index="50" node_type="writer">String token: El texto ingresado que representa el token.</paragraph>
+ <paragraph index="51" node_type="writer">String tipo: El tipo de token (por ejemplo, palabra clave, identificador).</paragraph>
+ <paragraph index="52" node_type="writer">String fila: La fila en la que se encuentra el token en el código fuente.</paragraph>
+ <paragraph index="53" node_type="writer">String columna: La columna en la que se encuentra el token en la fila.</paragraph>
+ <paragraph index="54" node_type="writer">String lenguaje: El lenguaje de programación al que pertenece el token.</paragraph>
+ <paragraph index="55" node_type="writer">String expresionRegular: La expresión regular que define lo que el token acepta.</paragraph>
+ <paragraph index="56" node_type="writer">List&lt;Token&gt; ListaDeTokens: Lista de tokens válidos.</paragraph>
+ <paragraph index="57" node_type="writer">List&lt;Token&gt; TokenError: Lista de tokens que representan errores de análisis.</paragraph>
+ <paragraph index="58" node_type="writer">List&lt;Token&gt; tokenOptimizacion: Lista de tokens relacionados con optimización.</paragraph>
+ <paragraph index="59" node_type="writer">Fronted:</paragraph>
+ <paragraph index="60" node_type="writer">JframePrincipal: representa la ventana principal de una aplicación de análisis léxico. Esta clase incluye elementos de interfaz gráfica de usuario (GUI) para permitir la entrada de código, mostrar el conteo de líneas, optimizar código y exportar resultados en formato HTML:</paragraph>
+ <paragraph index="61" node_type="writer">JframePrincipal(): Constructor que inicializa el GUI, configura las dimensiones de la ventana y agrega un DocumentListener al área de texto para actualizar el conteo de líneas.</paragraph>
+ <paragraph index="62" node_type="writer">ActualizarConteoLineas(): Método que actualiza el conteo de líneas en el área de texto taTexto y habilita/deshabilita los botones de exportar y optimizar según si hay texto presente.Calcula el número de líneas actuales y las muestra en taFila.</paragraph>
+ <paragraph index="63" node_type="writer">botonExportarActionPerformed(ActionEvent evt): Maneja la acción del botón &quot;Exportar HTML&quot;. Invoca el método exportarHtml del objeto Analizador, pasando el contenido del área de texto.</paragraph>
+ <paragraph index="64" node_type="writer">botonOptimizarActionPerformed(ActionEvent evt): Maneja la acción del botón &quot;Optimizar&quot;. Llama al método optimizarCodigo del objeto Analizador y actualiza taTexto con el código optimizado.</paragraph>
+ <paragraph index="65" node_type="writer">jMenu1MouseClicked(MouseEvent evt): Muestra los paneles de texto (jPanel3 y jPanel4) y llama al método limpiar() para reiniciar la interfaz.</paragraph>
+ <paragraph index="66" node_type="writer">jMenuItem1ActionPerformed(ActionEvent evt):Muestra el diálogo para reportes de tokens cuando se selecciona la opción del menú correspondiente.</paragraph>
+ <paragraph index="67" node_type="writer">jMenuItem3ActionPerformed(ActionEvent evt):Muestra el diálogo para reportes de errores cuando se selecciona la opción del menú correspondiente.</paragraph>
+ <paragraph index="68" node_type="writer">Limpiar(): Restablece el estado de la interfaz al limpiar los textos en las áreas correspondientes y deshabilitar los botones. También actualiza y redibuja los paneles.</paragraph>
+ <paragraph index="69" node_type="writer">reportesError:permite mostrar y exportar un reporte de tokens de error en formato HTML. La ventana incluye una tabla para mostrar los datos y un botón para exportar el contenido de la tabla a un archivo HTML:</paragraph>
+ <paragraph index="70" node_type="writer">jButton1ActionPerformed(java.awt.event.ActionEvent evt): Método que se ejecuta al hacer clic en el botón &quot;ExportarHTML&quot;. Verifica si la tabla está cargada y llama al método exportarTablaAHTML para exportar los datos de la tabla a un archivo HTML.</paragraph>
+ <paragraph index="71" node_type="writer">exportarTablaAHTML(JTable table): Exporta el contenido de la tabla proporcionada a un archivo HTML. Crea una carpeta &quot;Reportes HTML&quot; si no existe y escribe los encabezados y los datos de la tabla en el archivo HTML. También maneja excepciones y muestra mensajes de éxito o error.</paragraph>
+ <paragraph index="72" node_type="writer">subirTabla(JTable tabla):Recibe una tabla JTable, la asigna a la variable de instancia tabla1, y la agrega a un panel de desplazamiento (JScrollPane) en la interfaz. Ajusta el diseño del panel y actualiza la visualización.</paragraph>
+ <paragraph index="73" node_type="writer">reportesToken: permite mostrar y exportar un reporte de tokens en formato HTML. La ventana incluye una tabla para mostrar los datos y un botón para exportar el contenido de la tabla a un archivo HTML:</paragraph>
+ <paragraph index="74" node_type="writer">jButton1ActionPerformed(java.awt.event.ActionEvent evt): Método que se ejecuta al hacer clic en el botón &quot;ExportarHTML&quot;. Verifica si la tabla está cargada y llama al método exportarTablaAHTML para exportar los datos de la tabla a un archivo HTML.</paragraph>
+ <paragraph index="75" node_type="writer">exportarTablaAHTML(JTable table): Exporta el contenido de la tabla proporcionada a un archivo HTML. Crea una carpeta &quot;Reportes HTML&quot; si no existe y escribe los encabezados y los datos de la tabla en el archivo HTML. También maneja excepciones y muestra mensajes de éxito o error.</paragraph>
+ <paragraph index="76" node_type="writer">subirTabla(JTable tabla):Recibe una tabla JTable, la asigna a la variable de instancia tabla1, y la agrega a un panel de desplazamiento (JScrollPane) en la interfaz. Ajusta el diseño del panel y actualiza la visualización.</paragraph>
+</indexing>
